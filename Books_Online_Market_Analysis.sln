@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33815.320
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Books_Online_Market_Analysis", "Books_Online_Market_Analysis\Books_Online_Market_Analysis.pyproj", "{339928D9-8DB4-4D3E-BEA3-D09CD550EBC9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{339928D9-8DB4-4D3E-BEA3-D09CD550EBC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{339928D9-8DB4-4D3E-BEA3-D09CD550EBC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8F8469AE-1C70-461E-ACA5-A7193C00B4A3}
+	EndGlobalSection
+EndGlobal
