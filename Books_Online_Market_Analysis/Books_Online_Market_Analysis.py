@@ -4,8 +4,13 @@ from http.client import responses
 from requests_html import HTMLSession
 
 session = HTMLSession()
-url = 'http://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html'
+url = 'http://books.toscrape.com/index.html'
 response = session.get(url)
+
+url = "http://books.toscrape.com/" + response.html.find('ul.nav.nav-list > li > ul > li > a', first = True).attrs['href']
+response = session.get(url)
+
+listToScrap = response.html.find('ol.row', first = True).find('div.image_container > a')
 
 filename = 'scrappedData.csv'
 scrappedProduct = {
@@ -21,6 +26,12 @@ scrappedProduct = {
     'image_url': 'null',
 }
 
+for element in listToScrap : 
+    href = element.attrs['href'].replace("../", "")
+    url = "http://books.toscrape.com/catalogue/" + href
+    response = session.get(url)
+    #print(response.html.find('div.col-sm-6.product_main > h1', first = True).text)
+
 scrappedProduct['product_page_url'] = url
 scrappedProduct['universal_ product_code (upc)'] = response.html.find('table > tr > td' , first = True).text
 scrappedProduct['title'] = response.html.find('div.col-sm-6.product_main > h1', first = True).text
@@ -31,6 +42,7 @@ scrappedProduct['product_description'] = response.html.find('article.product_pag
 scrappedProduct['category'] = response.html.find('ul.breadcrumb' , first = True).find('li > a')[2].text
 scrappedProduct['review_rating'] = response.html.search('"star-rating {}"')[0]
 scrappedProduct['image_url'] = response.html.find('[src]', first = True).attrs['src']
+
 #print(response.text)
    
 with open(filename, 'w', newline='') as csvfile:
