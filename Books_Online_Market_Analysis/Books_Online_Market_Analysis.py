@@ -1,4 +1,5 @@
 from requests_html import HTMLSession
+import requests
 import csv
 import os
 
@@ -88,11 +89,11 @@ def image_url(self, value):
 
 
 def writeToCsv(fileName, listToWrite): 
-    folder = "CSV files"
+    folder = "scraped_files/" + fileName + "/CSV file"
     if not os.path.exists(folder):
         os.makedirs(folder)
 
-    file_path = os.path.join(folder, fileName)
+    file_path = os.path.join(folder, fileName + ".csv")
 
     with open(file_path, 'w', encoding='utf-8', newline='') as csvfile:
         fieldnames = ['product_page_url', 'universal_product_code (upc)', 'title', 'price_including_tax', 
@@ -116,7 +117,23 @@ def writeToCsv(fileName, listToWrite):
                 'image_url': product.image_url or "null"
             })
 
-def pageScraping(arrayToAppend, targetList, category): 
+def writeImg(category, image_urls):
+    folder = "scraped_files/" + category + "/img"
+    if not os.path.exists(folder):
+        os.makedirs(folder)
+
+    for i, url in enumerate(image_urls):
+        try:
+            response = requests.get(url)
+            response.raise_for_status()
+            image_filename = os.path.join(folder, f"image_{i}.jpg")
+            with open(image_filename, "wb") as f:
+                f.write(response.content)
+            print(f"Image {i + 1} downloaded and saved as {image_filename}")
+        except requests.exceptions.RequestException as e:
+            print(f"Error downloading image {i + 1}: {e}")
+
+def pageScraping(arrayToAppend, imgArray, targetList, category): 
     for element in targetList : 
         url = element.absolute_links.pop()
         response = session.get(url)
@@ -184,19 +201,23 @@ def pageScraping(arrayToAppend, targetList, category):
         
         # Image URL
         try:
-            scrapedProduct.image_url = response.html.find('[src]', first=True).attrs['src']
+            scrapedProduct.image_url = "https://books.toscrape.com/" + (response.html.find('[src]', first=True).attrs['src']).lstrip("../")
+            imgArray.append(scrapedProduct.image_url)
+
         except Exception as e:
             scrapedProduct.image_url = "null"
             print(f"Error setting image_url: {e} at " + scrapedProduct.title + " in " + category)
 
         arrayToAppend.append(scrapedProduct)
 
-def categoryScraping(r, category, categoryUrl): 
-    categoryProductList = []    
-    listToScrap = r.html.find('ol.row', first = True).find('div.image_container > a')
-    filename = category + ".csv"
 
-    pageScraping(categoryProductList, listToScrap, category)    
+def categoryScraping(r, category, categoryUrl): 
+    categoryProductList = []
+    imgList = []    
+    listToScrap = r.html.find('ol.row', first = True).find('div.image_container > a')
+    filename = category
+
+    pageScraping(categoryProductList, imgList, listToScrap, category)    
 
     response = session.get(categoryUrl)
     paginationCheck = response.html.find('li.current', first=True)
@@ -204,9 +225,10 @@ def categoryScraping(r, category, categoryUrl):
         for _ in range(int(paginationCheck.text.split()[-1])-1):
             r = session.get(response.html.find('li.next > a', first=True).absolute_links.pop())
             listToScrap = r.html.find('ol.row', first=True).find('div.image_container > a')
-            pageScraping(categoryProductList, listToScrap, category)
+            pageScraping(categoryProductList, imgList, listToScrap, category)
 
     writeToCsv(filename, categoryProductList)
+    writeImg(filename, imgList)
 
 session = HTMLSession()
 url = 'http://books.toscrape.com/index.html'
