@@ -7,9 +7,9 @@ def writeToCsv(fileName, listToWrite):
     if not os.path.exists(folder):
         os.makedirs(folder)
 
-    file_path = os.path.join(folder, fileName + ".csv")
+    filePath = os.path.join(folder, fileName + ".csv")
 
-    with open(file_path, 'w', encoding='utf-8', newline='') as csvfile:
+    with open(filePath, 'w', encoding='utf-8', newline='') as csvfile:
         fieldnames = ['product_page_url', 'universal_product_code (upc)', 'title', 'price_including_tax', 
                       'price_excluding_tax', 'number_available', 'product_description', 'category', 
                       'review_rating', 'image_url']
@@ -19,16 +19,16 @@ def writeToCsv(fileName, listToWrite):
     
         for product in listToWrite:
             writer.writerow({
-                'product_page_url': product.product_page_url or "null",
-                'universal_product_code (upc)': product.universal_product_code or "null",
+                'product_page_url': product.productUrl or "null",
+                'universal_product_code (upc)': product.productCode or "null",
                 'title': product.title or "null",
-                'price_including_tax': product.price_including_tax or "null",
-                'price_excluding_tax': product.price_excluding_tax or "null",
-                'number_available': product.number_available or "null",
-                'product_description': product.product_description or "null",
+                'price_including_tax': product.productPriceTaxIncluded or "null",
+                'price_excluding_tax': product.productPriceTaxExcluded or "null",
+                'number_available': product.productNbr or "null",
+                'product_description': product.productDescription or "null",
                 'category': product.category or "null",
-                'review_rating': product.review_rating or "null",
-                'image_url': product.image_url or "null"
+                'review_rating': product.productRating or "null",
+                'image_url': product.productImgUrl or "null"
             })
             
 def writeImg(category, imgList):

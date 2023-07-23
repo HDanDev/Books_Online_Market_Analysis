@@ -2,6 +2,7 @@ from requests_html import HTMLSession
 from ScrapedProductClass import ScrapedProduct
 from writers import *
 from functions import *
+import time
 
 def pageScraping(arrayToAppend, imgArray, targetList, category, isPrintable): 
     if isPrintable :
@@ -15,16 +16,16 @@ def pageScraping(arrayToAppend, imgArray, targetList, category, isPrintable):
 
         # URL
         try:
-            scrapedProduct.product_page_url = url
+            scrapedProduct.productUrl = url
         except Exception as e:
-            scrapedProduct.product_page_url = "null"
+            scrapedProduct.productUrl = "null"
             print(f"Error setting URL: {e} at " + scrapedProduct.title + " in " + category)
         
         # UPC
         try:
-            scrapedProduct.universal_product_code = response.html.find('table > tr > td', first=True).text
+            scrapedProduct.productCode = response.html.find('table > tr > td', first=True).text
         except Exception as e:
-            scrapedProduct.universal_product_code = "null"
+            scrapedProduct.productCode = "null"
             print(f"Error setting UPC: {e} at " + scrapedProduct.title + " in " + category)
         
         # Title
@@ -36,30 +37,30 @@ def pageScraping(arrayToAppend, imgArray, targetList, category, isPrintable):
         
         # Price Including Tax
         try:
-            scrapedProduct.price_including_tax = response.html.find('table', first=True).find('tr > td')[3].text
+            scrapedProduct.productPriceTaxIncluded = response.html.find('table', first=True).find('tr > td')[3].text
         except Exception as e:
-            scrapedProduct.price_including_tax = "null"
-            print(f"Error setting price_including_tax: {e} at " + scrapedProduct.title + " in " + category)
+            scrapedProduct.productPriceTaxIncluded = "null"
+            print(f"Error setting price tax included: {e} at " + scrapedProduct.title + " in " + category)
         
         # Price Excluding Tax
         try:
-            scrapedProduct.price_excluding_tax = response.html.find('table', first=True).find('tr > td')[2].text
+            scrapedProduct.productPriceTaxExcluded = response.html.find('table', first=True).find('tr > td')[2].text
         except Exception as e:
-            scrapedProduct.price_excluding_tax = "null"
-            print(f"Error setting price_excluding_tax: {e} at " + scrapedProduct.title + " in " + category)
+            scrapedProduct.productPriceTaxExcluded = "null"
+            print(f"Error setting product price tax excluded: {e} at " + scrapedProduct.title + " in " + category)
         
         # Number Available
         try:
-            scrapedProduct.number_available = response.html.search('In stock ({} available)')[0]
+            scrapedProduct.productNbr = response.html.search('In stock ({} available)')[0]
         except Exception as e:
-            scrapedProduct.number_available = "null"
-            print(f"Error setting number_available: {e} at " + scrapedProduct.title + " in " + category)
+            scrapedProduct.productNbr = "null"
+            print(f"Error setting product number: {e} at " + scrapedProduct.title + " in " + category)
         
         # Description
         try:
-            scrapedProduct.product_description = response.html.find('article.product_page > p', first=True).text
+            scrapedProduct.productDescription = response.html.find('article.product_page > p', first=True).text
         except Exception as e:
-            scrapedProduct.product_description = "null"
+            scrapedProduct.productDescription = "null"
             print(f"Error setting description: {e} at " + scrapedProduct.title + " in " + category)
         
         # Category
@@ -67,19 +68,19 @@ def pageScraping(arrayToAppend, imgArray, targetList, category, isPrintable):
         
         # Rating
         try:
-            scrapedProduct.review_rating = response.html.search('"star-rating {}"')[0]
+            scrapedProduct.productRating = response.html.search('"star-rating {}"')[0]
         except Exception as e:
-            scrapedProduct.review_rating = "null"
+            scrapedProduct.productRating = "null"
             print(f"Error setting rating: {e} at " + scrapedProduct.title + " in " + category)
         
         # Image URL
         try:
-            scrapedProduct.image_url = "https://books.toscrape.com/" + (response.html.find('[src]', first=True).attrs['src']).lstrip("../")
-            imgArray.append(scrapedProduct.image_url + "_*delimiter*_" + safeFilename(scrapedProduct.title))
+            scrapedProduct.productImgUrl = "https://books.toscrape.com/" + (response.html.find('[src]', first=True).attrs['src']).lstrip("../")
+            imgArray.append(scrapedProduct.productImgUrl + "_*delimiter*_" + safeFilename(scrapedProduct.title))
 
         except Exception as e:
-            scrapedProduct.image_url = "null"
-            print(f"Error setting image_url: {e} at " + scrapedProduct.title + " in " + category)
+            scrapedProduct.productImgUrl = "null"
+            print(f"Error setting image url: {e} at " + scrapedProduct.title + " in " + category)
 
         arrayToAppend.append(scrapedProduct)
 
@@ -107,9 +108,16 @@ session = HTMLSession()
 url = 'http://books.toscrape.com/index.html'
 response = session.get(url)
 
+startTimer = time.time()
+
 categoryList = response.html.find('ul.nav.nav-list > li > ul > li > a')
 for category in categoryList : 
     categoryName = category.text
     categoryUrl = category.absolute_links.pop()
     response = session.get(categoryUrl)
     categoryScraping(response, categoryName, categoryUrl)
+
+endTimer = time.time()
+timerResult = endTimer - startTimer
+
+print(f"Scraping successfully completed in {int(timerResult // 60)}:{int(timerResult %60)} minutes")

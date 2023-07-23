@@ -4,19 +4,19 @@ class ScrapedProduct:
 
 @property
 def product_page_url(self):
-    return self.__product_page_url
+    return self.__productUrl
 
 @product_page_url.setter
 def product_page_url(self, value):
-    self.__product_page_url = value
+    self.__productUrl = value
 
 @property
 def universal_product_code(self):
-    return self.__universal_product_code
+    return self.__productCode
 
 @universal_product_code.setter
 def universal_product_code(self, value):
-    self.__universal_product_code = value
+    self.__productCode = value
 
 @property
 def title(self):
@@ -28,35 +28,35 @@ def title(self, value):
 
 @property
 def price_including_tax(self):
-    return self.__price_including_tax
+    return self.__productPriceTaxIncluded
 
 @price_including_tax.setter
 def price_including_tax(self, value):
-    self.__price_including_tax = value
+    self.__productPriceTaxIncluded = value
 
 @property
 def price_excluding_tax(self):
-    return self.__price_excluding_tax
+    return self.__productPriceTaxExcluded
 
 @price_excluding_tax.setter
 def price_excluding_tax(self, value):
-    self.__price_excluding_tax = value
+    self.__productPriceTaxExcluded = value
 
 @property
 def number_available(self):
-    return self.__number_available
+    return self.__productNbr
 
 @number_available.setter
 def number_available(self, value):
-    self.__number_available = value
+    self.__productNbr = value
 
 @property
 def product_description(self):
-    return self.__product_description
+    return self.__productDescription
 
 @product_description.setter
 def product_description(self, value):
-    self.__product_description = value
+    self.__productDescription = value
 
 @property
 def category(self):
@@ -68,17 +68,17 @@ def category(self, value):
 
 @property
 def review_rating(self):
-    return self.__review_rating
+    return self.__productRating
 
 @review_rating.setter
 def review_rating(self, value):
-    self.__review_rating = value + " stars" if value else "null"
+    self.__productRating = value + " stars" if value else "null"
 
 @property
 def image_url(self):
-    return self.__image_url
+    return self.__productImgUrl
 
 @image_url.setter
 def image_url(self, value):
-    self.__image_url = value
+    self.__productImgUrl = value
 
