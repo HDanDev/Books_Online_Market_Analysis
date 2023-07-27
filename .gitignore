@@ -366,3 +366,5 @@ FodyWeavers.xsd
 *.csv
 *.jpg
 *.png
+*.sln
+*.pyproj

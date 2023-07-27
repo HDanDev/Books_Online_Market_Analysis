@@ -18,21 +18,47 @@ Getting Started
 
 -- Prerequisites --
 
-    Python (version 3.6 or higher)
-    Python libraries:
-        requests
-        beautifulsoup4
+Python (version 3.6 or higher)  
+
+Python libraries:  
+
+requests  
+beautifulsoup4  
 
 -- Installation --
 
 1. Clone the repository:
 
+```
 https://github.com/HDanDev/Books_Online_Market_Analysis.git
+```
+```
 cd Books_Online_Market_Analysis
+```
 
-2. Install the required Python libraries using pip:
+2. Create a Python virtual environement:
 
+```
+python3 -m venv venv
+```
+
+3. Activate the virtual environment:
+
+• Windows:
+```
+venv\Scripts\activate
+```
+
+• MacOS and Linux:
+```
+source venv/bin/activate
+```
+
+3. Install the required Python libraries using pip:
+
+```
 pip install requests beautifulsoup4
+```
 
 -----
 Usage
@@ -40,40 +66,40 @@ Usage
 
 To run the web scraping script, execute the following command:
 
-Books_Online_Market_Analysis.py
+    Books_Online_Market_Analysis.py
 
 The script will scrape data for various book categories from the "Books to Scrape" website. The extracted information will be saved as CSV files for each category in the scraped_files directory. Additionally, book cover images will be downloaded and saved in the scraped_files/[category]/img directory.
 Project Structure
 
 The project directory structure is as follows:
 
-web-scraping-project/
-  ├── Books_Online_Market_Analysis.py
-  ├── functions.py
-  ├── README.md
-  ├── ScrapedProductClass.py
-  ├── writers.py
-  └── scraped_files/
-      ├── [category name]/
-      │   ├── CSV file/
-      │   │   └── [category name].csv
-      │   └── img/
-      │       └── [book name]
-      ├── [category name]/
-      │   ├── CSV file/
-      │   │   └── [category name].csv
-      │   └── img/
-      │       └── [book name]
-      └── [other_categories...]
+    web-scraping-project/
+      ├── Books_Online_Market_Analysis.py
+      ├── functions.py
+      ├── README.md
+      ├── ScrapedProductClass.py
+      ├── writers.py
+      └── scraped_files/
+          ├── [category name]/
+          │   ├── CSV file/
+          │   │   └── [category name].csv
+          │   └── img/
+          │       └── [book name]
+          ├── [category name]/
+          │   ├── CSV file/
+          │   │   └── [category name].csv
+          │   └── img/
+          │       └── [book name]
+          └── [other_categories...]
 
-    Books_Online_Market_Analysis.py: The main Python script that initiates the web scraping process.
-    functions.py: Contains utility functions.
-    ScrapedProductClass.py: Defines the ScrapedProduct class to store scraped data in an organized manner.
-    writers.py: Contains the functions for scraping and saving data into CSV and img files.
-    README.md: This readme file.
-    scraped_files/: Directory to store the scraped data.
-    scraped_files/[category]/CSV file/: Directory to store CSV files for each book category.
-    scraped_files/[category]/img/: Directory to store downloaded book cover images for each category.
+Books_Online_Market_Analysis.py: The main Python script that initiates the web scraping process.  
+functions.py: Contains utility functions.  
+ScrapedProductClass.py: Defines the ScrapedProduct class to store scraped data in an organized manner.  
+writers.py: Contains the functions for scraping and saving data into CSV and img files.  
+README.md: This readme file.  
+scraped_files/: Directory to store the scraped data.  
+scraped_files/[category]/CSV file/: Directory to store CSV files for each book category.  
+scraped_files/[category]/img/: Directory to store downloaded book cover images for each category.  
 
 ------------
 Contributing
