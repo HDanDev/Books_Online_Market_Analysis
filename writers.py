@@ -19,17 +19,18 @@ def writeToCsv(fileName, listToWrite):
     
         for product in listToWrite:
             writer.writerow({
-                'product_page_url': product.productUrl or "null",
-                'universal_product_code (upc)': product.productCode or "null",
-                'title': product.title or "null",
-                'price_including_tax': product.productPriceTaxIncluded or "null",
-                'price_excluding_tax': product.productPriceTaxExcluded or "null",
-                'number_available': product.productNbr or "null",
-                'product_description': product.productDescription or "null",
-                'category': product.category or "null",
-                'review_rating': product.productRating or "null",
-                'image_url': product.productImgUrl or "null"
+                'product_page_url': product.productUrl,
+                'universal_product_code (upc)': product.productCode,
+                'title': product.title,
+                'price_including_tax': product.productPriceTaxIncluded,
+                'price_excluding_tax': product.productPriceTaxExcluded,
+                'number_available': product.productNbr,
+                'product_description': product.productDescription,
+                'category': product.category,
+                'review_rating': product.productRating,
+                'image_url': product.productImgUrl
             })
+    print(f"CSV file created and saved as {filePath}")
             
 def writeImg(category, imgList):
     folder = "scraped_files/" + category + "/img"
