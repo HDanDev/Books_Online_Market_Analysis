@@ -1,12 +1,19 @@
 import re
 
 def safeFilename(string):
-    max_length = 30
+    maxLength = 30
     cleanedFilename = (
         re.sub(r'[^a-zA-Z0-9_]', '', string.replace(" ", "_"))
     ).strip()
 
-    if len(cleanedFilename) > max_length:        
-        return cleanedFilename[:max_length] + "_etc"
+    if len(cleanedFilename) > maxLength:        
+        return cleanedFilename[:maxLength] + "_etc"
 
     return cleanedFilename
+
+def urlCleaner(string, expressionToRemove, newExpression):
+    regex = re.escape(expressionToRemove)
+    
+    newString = re.sub(regex, newExpression, string)
+    
+    return newString
