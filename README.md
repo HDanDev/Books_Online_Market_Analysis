@@ -66,7 +66,7 @@ Usage
 
 To run the web scraping script, execute the following command:
 
-    Books_Online_Market_Analysis.py
+    py Books_Online_Market_Analysis.py
 
 The script will scrape data for various book categories from the "Books to Scrape" website. The extracted information will be saved as CSV files for each category in the scraped_files directory. Additionally, book cover images will be downloaded and saved in the scraped_files/[category]/img directory.
 Project Structure
